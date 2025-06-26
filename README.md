@@ -1,135 +1,117 @@
 # WorkAsana
 ## Project Overview
-WorkAsana is a task and project management application designed to enhance team collaboration and streamline task tracking. It offers an intuitive interface for managing tasks, teams, and projects with robust filtering, reporting, and visualization features. Built with a modern tech stack, WorkAsana ensures scalability, security, and a seamless user experience.
- 
+WorkAsana is a full-stack task and project management application designed to streamline team collaboration and task tracking. It provides a user-friendly interface for managing tasks, teams, and projects with robust filtering, reporting, and visualization features. Built with a modern tech stack, WorkAsana ensures scalability, security, and an intuitive user experience.
 
-### Authentication  
+Demo Link
+vercel Link
 
-- Login: Secure form for user login with email and password. Validates credentials and stores a JWT token in localStorage. Displays error messages for invalid inputs.  
-- Signup: Form for new users to register with name, email, and password. Sends data to the backend and shows success or error messages.  
-- Logout: Clears JWT token and redirects to the login page.
+## Login
 
+> **Guest Credentials**  
+> Password: supersecretadmin   
 
-### Task Management  
+Quick Start
 
-- TaskForm: Create tasks with fields:  
-- Task Name  
-- Project Name (dropdown)  
-- Owners (multi-select dropdown for team members)  
-- Team (dropdown: Sales, Marketing, Development, Finance)  
-- Tags (multi-select: e.g., Urgent, Bug)  
-- Time to Complete (days, number input)  
-- Status (dropdown: To Do, In Progress, Completed, Blocked)
+```
+git clone https://github.com/pratikyesankar/workasanaFrontend.git
+cd workasanaFrontend
+npm install
+npm run dev      
+```
+## Technologies
 
+- React JS  
+- React Router  
+- Vite  
+- Axios  
+- Bootstrap  
+- Chart.js  
+- Node.js  
+- Express  
+- MongoDB  
+- Mongoose  
+- JWT  
+- bcrypt
 
-## TaskList:
-Displays tasks with filters for owner, team, tags, project, and status. Supports URL-based filtering (e.g., /tasks?owner=Tanay&team=development). Allows sorting by completion date or priority.  
-## TaskDetails:
-Shows detailed task information (project, team, owners, tags, status) with options to update or modify tasks.
+## Demo Video
+Watch a walkthrough (5–7 minutes) of all major features of this app: Loom Video Link
 
+## Features
 
-## Project and Team Views  
+**Home**
+- Displays a list of all tasks with real-time filtering by owner, team, tags, project, or status.  
+- URL-based filtering (e.g., /tasks?team=development&tags=Urgent).
 
-- ProjectView: Groups tasks by project, displaying project name and task details with in-view filtering (e.g., by tags or owner).  
-- TeamView: Groups tasks by team (Sales, Marketing, Development, Finance) with sorting and filtering by status or due dates.
+**Task  Listing**
+- Paginated task list with sorting options for completion dates or priority.  
+- “Add New Task” button opens a form to create tasks with fields for task name, project, team, owners, tags, time to complete, and status.
 
-## Reports and Visualizations  
+**Task  Details**
+- View detailed task information, including project, team, owners, tags, time to complete, and status (To Do, In Progress, Completed, Blocked).  
+- “Edit Task” button to update task details or status.
 
-Total work completed last week (bar chart).  
-Total days of work pending (bar chart).  
-Tasks closed by team, owner, or project (pie chart).  
-Visualizations powered by Chart.js.
+**Authentication**
+User signup and login with JWT-based authentication, storing tokens in localStorage.  
+Protected routes ensure only authenticated users can add, edit, or delete tasks.  
+Logout clears the JWT token and redirects to the login page.
 
+## API Reference
 
-Filtering  
+### **GET /api/tasks**<br>  
 
-URL-based filters (e.g., /tasks?team=development&tags=Urgent).  
-UI updates dynamically based on URL query parameters.
+List all tasks with optional filters (team, owner, tags, project, status).  
+Sample Response:<br>
+```[{ "_id": "123", "name": "Design Wireframes", "project": "Website Redesign", "team": "Development", "status": "In Progress", ... }, ...]```
 
+### **GET /api/projects**<br>    
 
-
-# Backend Features
-
-## API Endpoints  
-
-- POST /auth/signup: Register new users with password hashing (bcrypt).  
-- POST /auth/login: Authenticate users and issue JWT tokens.  
-- GET /auth/me: Fetch authenticated user details.  
-- Task endpoints:  
-- POST /tasks: Create a task.  
-- GET /tasks: Fetch tasks with filters (team, owner, tags, project, status).  
-- POST /tasks/:id: Update a task.  
-- DELETE /tasks/:id: Delete a task.
-
-
-POST /teams, GET /teams: Manage teams.  
-POST /projects, GET /projects: Manage projects.  
-POST /tags, GET /tags: Manage tags for task categorization.  
-Reporting endpoints:  
-GET /report/last-week: Tasks completed in the last 7 days.  
-GET /report/pending: Sum of pending task completion days.  
-GET /report/closed-tasks: Statistics of closed tasks by team, owner, or project.
-
-
-## Authentication  
-
-JWT-based middleware ensures only authenticated users access protected routes.  
-Appropriate error handling for invalid credentials or missing tokens.
-
-Tech Stack
-
-Frontend:  
-
-React (with Vite for fast development)  
-React Router for URL-based navigation  
-Axios for API requests  
-Bootstrap for responsive styling  
-Chart.js for visualizations
+List all projects.  
+Sample Response:<br>
+```[{ "_id": "64c34512f7a60e36df44", "name": "Website Redesign", "description": "Redesign company website" }, ...]```
 
 
-Backend:  
+### **GET /api/teams**<br>  
 
-Express.js for RESTful APIs  
-MongoDB with Mongoose for database interactions  
-JWT and bcrypt for authentication
-
-
-Database: MongoDB with models for:  
-
-Tasks  
-Teams  
-Projects  
-Users  
-Tags
+List all teams.  
+Sample Response:<br>
+```[{ "_id": "64c99a47b74e58d3b213", "name": "Development", "description": "Handles development tasks" }, ...]```
 
 
-### Set up environment variables in backend.
-JWT_SECRET=your_jwt_secret_key
-PORT=4000
+### **POST /api/auth/signup**<br>   
 
-### Usage
+Register a new user with password hashing (bcrypt).  
+Sample Response:<br>
+``` { "userId": "456", "token": "jwt_token" } ```
 
-Sign Up: Register with name, email, and password.<br/>
-Log In: Authenticate to access the app; JWT token stored in localStorage.<br/>  
-Manage Tasks: Create, view, and edit tasks using TaskForm and TaskList.<br/>  
-Filter Tasks: Use URL filters (e.g., /tasks?team=development) or UI controls.<br/>
-View Reports: Check task progress and team productivity via visualizations.<br/>
-Manage Teams/Projects: Add and organize teams and projects.<br/>
-Logout: Clears token and redirects to login page.<br/>
+### **POST /api/auth/login**<br>   
 
-# Database Models
+Authenticate a user and issue a JWT token.  
+Sample Response:<br>
+``` { "userId": "456", "token": "jwt_token" } ```
 
-- Task: Stores task details with references to Project, Team, and Users (owners). Includes tags, timeToComplete, and status (To Do, In Progress, Completed, Blocked).  
-- Team: Unique team names with optional descriptions.  
-- Project: Unique project names with optional descriptions.  
-- User: Unique emails and names for task owners.  
-- Tag: Unique tag names for task categorization.
+### **POST /api/teams**<br>   
+
+Create a new team.  
+Sample Response:<br>
+``` { "_id": "64c99a47b74e58d3b213", "name": "Development", "description": "Handles development tasks" } ```
+
+### **POST /api/tasks**<br>    
+
+Create a new task (protected).  
+Sample Response:<br>
+``` { "_id": "123", "name": "Design Wireframes", "project": "Website Redesign", ... } ```
+
+### **POST /api/projects**<br>    
+
+Create a new project.  
+Sample Response:<br>
+``` { "_id": "64c34512f7a60e36df44", "name": "Website Redesign", "description": "Redesign company website" } ```
+
+### **GET /api/report/last-week**<br>    
+
+Fetch tasks completed in the last 7 days.  
+Sample Response:  [{ "_id": "123", "name": "Design Wireframes", "status": "Completed", ... }, ...]
 
 
-
-
-
-
-
-
-
+## Contact
+For bugs or feature requests, please reach out to pratikyesankar.@gmail.com.
