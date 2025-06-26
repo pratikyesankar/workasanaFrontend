@@ -125,12 +125,6 @@ Logout: Clears token and redirects to login page.<br/>
 - User: Unique emails and names for task owners.  
 - Tag: Unique tag names for task categorization.
 
-# Example API Requests
-
-# POST Methods
-### Create a new task
-### Create a new team
-### Create a new project
 
 
 
