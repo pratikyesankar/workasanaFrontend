@@ -114,4 +114,4 @@ Sample Response:  [{ "_id": "123", "name": "Design Wireframes", "status": "Compl
 
 
 ## Contact
-For bugs or feature requests, please reach out to pratikyesankar.@gmail.com.
+For bugs or feature requests, please reach out to pratikyesankar17.@gmail.com.
