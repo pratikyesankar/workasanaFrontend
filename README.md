@@ -1,127 +1,117 @@
-#  Anvaya CRM App
+# WorkAsana
+## Project Overview
+WorkAsana is a full-stack task and project management application designed to streamline team collaboration and task tracking. It provides a user-friendly interface for managing tasks, teams, and projects with robust filtering, reporting, and visualization features. Built with a modern tech stack, WorkAsana ensures scalability, security, and an intuitive user experience.
 
-A full-stack CRM (Customer Relationship Management) system for managing leads, tracking sales agent performance, adding comments, tagging leads, and viewing visual reports.
+## Demo Link
+[Live demo] (vercel-link)
 
----
+## Login
 
-## 🔗 Demo Link
+> **Guest Credentials**  
+> Password: supersecretadmin   
 
-[Live Demo](https://vercel.com/pratiks-projects-d3474ba5/major-project2frontend)
+Quick Start
 
----
-
-## ⚡ Quick Start
-
-```bash
-git clone (https://github.com/pratikyesankar/majorProject2frontend)
-cd anvaya-crm
-npm install
-npm run dev
 ```
----
-
+git clone https://github.com/pratikyesankar/workasanaFrontend.git
+cd workasanaFrontend
+npm install
+npm run dev      
+```
 ## Technologies
 
-* **React JS**
-* **React Router**
-* **Axios**
-* **Chart.js**
-* **Node.js**
-* **Express**
-* **MongoDB**
-
+- React JS  
+- React Router  
+- Vite  
+- Axios  
+- Bootstrap  
+- Chart.js  
+- Node.js  
+- Express  
+- MongoDB  
+- Mongoose  
+- JWT  
+- bcrypt
 
 ## Demo Video
-[Loom Video] (https://drive.google.com/file/d/1dYTK7snW_LtqlnT6hPdcL-emelmOrfM0/view?usp=sharing)
----
+Watch a walkthrough (5–7 minutes) of all major features of this app: Loom Video Link
 
 ## Features
 
-**LeadForm**
+**Home**
+- Displays a list of all tasks with real-time filtering by owner, team, tags, project, or status.  
+- URL-based filtering (e.g., /tasks?team=development&tags=Urgent).
 
-* Create new lead with fields:
+**Task  Listing**
+- Paginated task list with sorting options for completion dates or priority.  
+- “Add New Task” button opens a form to create tasks with fields for task name, project, team, owners, tags, time to complete, and status.
 
-  * Lead Name
-  * Lead Source (Website, Referral, Cold Call)
-  * Assigned Sales Agent
-  * Lead Status (New, Contacted, Qualified, Proposal Sent, Closed)
-  * Tags (multi-select)
-  * Time to Close (in days)
-  * Priority (High, Medium, Low)
+**Task  Details**
+- View detailed task information, including project, team, owners, tags, time to complete, and status (To Do, In Progress, Completed, Blocked).  
+- “Edit Task” button to update task details or status.
 
-**LeadList**
-
-* View all leads with filters:
-
-  * Sales Agent
-  * Lead Status
-  * Tags
-  * Lead Source
-* URL-based filtering (e.g., `/leads?salesAgent=John&status=Qualified`)
-* Sort by estimated closing time or priority
-
-**LeadDetails**
-
-* Detailed view of a single lead
-* Comments section with author, timestamp, and comment text
-* Update lead details
-
-**LeadStatusView**
-
-* Group leads by their status
-* Inline filters (e.g., by agent or tags within status)
-
-**SalesAgentView**
-
-* Group leads by assigned sales agent
-* Filter and sort by status or priority
-
-**Reports and Visualization**
-
-* Leads Closed Last Week: Bar chart
-* Total Leads in Pipeline: Bar chart grouped by status
-* Leads by Sales Agent: Pie chart or bar chart
-* Lead Status Distribution: Pie chart
-
-**Filtering**
-
-* URL-based filters like:
-
-  * `/leads?salesAgent=John`
-  * `/leads?status=Qualified`
-  * `/leads?source=Referral`
-  * Combined filters supported
-
----
+**Authentication**
+User signup and login with JWT-based authentication, storing tokens in localStorage.  
+Protected routes ensure only authenticated users can add, edit, or delete tasks.  
+Logout clears the JWT token and redirects to the login page.
 
 ## API Reference
 
-### **POST /leads**
+### **GET /api/tasks**<br>  
 
- 
+List all tasks with optional filters (team, owner, tags, project, status).  
+Sample Response:<br>
+```[{ "_id": "123", "name": "Design Wireframes", "project": "Website Redesign", "team": "Development", "status": "In Progress", ... }, ...]```
 
-### **GET /leads**
+### **GET /api/projects**<br>    
 
-Get leads with optional filters: `salesAgent`, `status`, `tags`, `source`
+List all projects.  
+Sample Response:<br>
+```[{ "_id": "64c34512f7a60e36df44", "name": "Website Redesign", "description": "Redesign company website" }, ...]```
 
-### **PATCH /leads/\:id**
 
-Update lead details
+### **GET /api/teams**<br>  
 
-### **DELETE /leads/\:id**
+List all teams.  
+Sample Response:<br>
+```[{ "_id": "64c99a47b74e58d3b213", "name": "Development", "description": "Handles development tasks" }, ...]```
 
-Delete a lead
 
-### **POST /agents**
+### **POST /api/auth/signup**<br>   
 
- 
+Register a new user with password hashing (bcrypt).  
+Sample Response:<br>
+``` { "userId": "456", "token": "jwt_token" } ```
 
-### **GET /agents**
+### **POST /api/auth/login**<br>   
 
-Get all sales agents
+Authenticate a user and issue a JWT token.  
+Sample Response:<br>
+``` { "userId": "456", "token": "jwt_token" } ```
 
-### **POST /leads/\:id/comments**
+### **POST /api/teams**<br>   
 
----
+Create a new team.  
+Sample Response:<br>
+``` { "_id": "64c99a47b74e58d3b213", "name": "Development", "description": "Handles development tasks" } ```
+
+### **POST /api/tasks**<br>    
+
+Create a new task (protected).  
+Sample Response:<br>
+``` { "_id": "123", "name": "Design Wireframes", "project": "Website Redesign", ... } ```
+
+### **POST /api/projects**<br>    
+
+Create a new project.  
+Sample Response:<br>
+``` { "_id": "64c34512f7a60e36df44", "name": "Website Redesign", "description": "Redesign company website" } ```
+
+### **GET /api/report/last-week**<br>    
+
+Fetch tasks completed in the last 7 days.  
+Sample Response:  [{ "_id": "123", "name": "Design Wireframes", "status": "Completed", ... }, ...]
+
+
 ## Contact
-* For bugs or feature requests, please reach out to pratikiitkgp585@gmail.com
+For bugs or feature requests, please reach out to pratikyesankar17.@gmail.com.
