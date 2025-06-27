@@ -9,7 +9,7 @@ const Teams = () => {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/teams");
+        const response = await axios.get("https://workasana-backend-ten.vercel.app/teams");
         setTeams(response.data);
       } catch (error) {
         console.error("Error fetching teams:", error);

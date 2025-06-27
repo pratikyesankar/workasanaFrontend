@@ -7,7 +7,7 @@ function Projects() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:4000/tasks")
+    axios.get("https://workasana-backend-ten.vercel.app/tasks")
       .then((response) => {
         setTasks(response.data);
       })

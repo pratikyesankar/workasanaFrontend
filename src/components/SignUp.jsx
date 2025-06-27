@@ -10,7 +10,7 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/api/signup", {
+      const response = await axios.post("https://workasana-backend-ten.vercel.app/api/signup", {
         name,
         email,
         password,

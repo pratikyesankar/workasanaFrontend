@@ -12,8 +12,8 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         const [projectsResponse, tasksResponse] = await Promise.all([
-          axios.get("http://localhost:4000/projects"),
-          axios.get("http://localhost:4000/tasks"),
+          axios.get("https://workasana-backend-ten.vercel.app/projects"),
+          axios.get("https://workasana-backend-ten.vercel.app/tasks"),
         ]);
         setProjects(projectsResponse.data);
         setTasks(tasksResponse.data);

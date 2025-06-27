@@ -36,7 +36,7 @@ const Login = () => {
   }
 
   try {
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+    const API_URL = import.meta.env.VITE_API_URL || "https://workasana-backend-ten.vercel.app/";
     const response = await fetch(`${API_URL}/admin/login`, {
       method: "POST",
       headers: {
