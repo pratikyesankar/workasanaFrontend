@@ -37,9 +37,9 @@ const Login = () => {
 
   try {
     const API_URL = import.meta.env.VITE_API_URL || "https://workasana-backend-ten.vercel.app/";
-    const response = await fetch(`${API_URL}/admin/login`, {
+    const response = await fetch(`${API_URL}admin/login`, {
       method: "POST",
-      headers: {
+      headers: {  
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ secret }),
