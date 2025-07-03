@@ -2,18 +2,26 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function Login() {
+function Auth() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
+
+    if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
+      setError("All fields are required.");
+      setIsLoading(false);
+      return;
+    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -22,11 +30,17 @@ function Login() {
       return;
     }
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch(`${API_URL}/api/login`, {
+      const response = await fetch(`${API_URL}/api/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       let data;
@@ -40,7 +54,7 @@ function Login() {
       }
 
       if (!response.ok) {
-        throw new Error(data.error || "Login failed.");
+        throw new Error(data.error || "Signup failed.");
       }
 
       localStorage.setItem("authToken", data.token);
@@ -48,7 +62,7 @@ function Login() {
       localStorage.setItem("authName", data.name);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Login failed. Please try again.");
+      setError(err.message || "Signup failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -57,9 +71,19 @@ function Login() {
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100">
       <div className="card p-4" style={{ maxWidth: "400px", width: "100%" }}>
-        <h2 className="text-center mb-4">Login</h2>
+        <h2 className="text-center mb-4">Sign Up</h2>
         {error && <div className="alert alert-danger">{error}</div>}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSignup}>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
           <div className="mb-3">
             <input
               type="email"
@@ -80,18 +104,28 @@ function Login() {
               required
             />
           </div>
+          <div className="mb-3">
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
           <button type="submit" className="btn btn-primary w-100 mb-3" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Login"}
+            {isLoading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
         <p className="text-center">
-          Don’t have an account?{" "}
+          Already have an account?{" "}
           <span
             className="text-primary"
             style={{ cursor: "pointer" }}
-            onClick={() => navigate("/auth")}
+            onClick={() => navigate("/login")}
           >
-            Sign Up
+            Login
           </span>
         </p>
       </div>
@@ -99,4 +133,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Auth;

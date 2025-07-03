@@ -8,31 +8,37 @@ function Dashboard() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+  const token = localStorage.getItem("authToken");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [projectsResponse, tasksResponse] = await Promise.all([
-          axios.get("https://workasana-backend-ten.vercel.app/projects"),
-          axios.get("https://workasana-backend-ten.vercel.app/tasks"),
+          axios.get(`${API_BASE}/projects`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(`${API_BASE}/tasks`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
         ]);
         setProjects(projectsResponse.data);
         setTasks(tasksResponse.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error.response?.data || error.message);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [API_BASE, token]);
 
   if (loading) return <div>Loading...</div>;
 
   return (
     <div>
-     
       <div className="flex-grow-1 p-4">
-        
+        {/* Search */}
         <div className="d-flex justify-content-end mb-3">
           <div className="input-group">
             <input
@@ -40,21 +46,18 @@ function Dashboard() {
               className="form-control"
               placeholder="Search"
               aria-label="Search"
-              aria-describedby="basic-addon2"
             />
-            <span className="input-group-text" id="basic-addon2">
+            <span className="input-group-text">
               <i className="bi bi-search"></i>
             </span>
           </div>
         </div>
 
-        
+        {/* Projects */}
         <div className="mb-4">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h2>Projects <span className="text-muted">Filter</span></h2>
-            <Link to="/projectForm" className="btn btn-primary">
-              New Project
-            </Link>
+            <Link to="/projectForm" className="btn btn-primary">New Project</Link>
           </div>
           <div className="row">
             {projects.map((project) => (
@@ -63,7 +66,6 @@ function Dashboard() {
                   <div className="card-body">
                     <h5 className="card-title">{project.name}</h5>
                     <p className="card-text">{project.description}</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus aut eligendi dicta porro in modi est esse error quaerat quisquam?</p>
                     <p className="card-text text-muted">
                       Created: {new Date(project.createdAt).toLocaleDateString()}
                     </p>
@@ -74,13 +76,11 @@ function Dashboard() {
           </div>
         </div>
 
-        
+        {/* Tasks */}
         <div>
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h2>My Tasks <span className="text-muted">Filter</span></h2>
-            <Link to="/taskForm" className="btn btn-primary">
-              New Task
-            </Link>
+            <Link to="/taskForm" className="btn btn-primary">New Task</Link>
           </div>
           <div className="row">
             {tasks.map((task) => (
@@ -92,8 +92,7 @@ function Dashboard() {
                     </h6>
                     <h5 className="card-title">{task.name}</h5>
                     <p className="card-text">
-                      Due on: {new Date(task.timeToComplete).toLocaleDateString()} <br />
-                      
+                      Due on: {new Date(task.timeToComplete).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -101,6 +100,7 @@ function Dashboard() {
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );

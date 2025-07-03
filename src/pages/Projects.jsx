@@ -1,98 +1,121 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import "../css/Dashboard.css";
-import { Link } from "react-router-dom";
+ import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Projects() {
-  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [projectName, setProjectName] = useState("");
+  const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
   useEffect(() => {
-    axios.get("https://workasana-backend-ten.vercel.app/tasks")
-      .then((response) => {
-        setTasks(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching tasks:", error);
-      });
-  }, []);
+    const fetchProjects = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await fetch(`${API_URL}/projects`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        let data;
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          data = await response.json();
+        } else {
+          const text = await response.text();
+          throw new Error(`Unexpected server response: ${text}`);
+        }
+        if (!response.ok) {
+          if (response.status === 401 || response.status === 403) {
+            console.error("Unauthorized access, redirecting to login");
+            localStorage.clear();
+            navigate("/login");
+            return;
+          }
+          throw new Error(data.error || "Failed to fetch projects");
+        }
+        setProjects(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Projects fetch error:", err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, [navigate]);
+
+  if (loading) return <div className="text-center">Loading...</div>;
+  if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
-    <div className="container-fluid p-4">
-      
-      <div className="mb-4">
-        <h2>Create Moodboard</h2>
-        <p className="text-muted">
-          This project centers around compiling a digital moodboard to set the visual direction and tone for a new brand identity.
-        </p>
-      </div>
+    <div className="container-fluid">
+      <div className="row">
+        {/* Main Content */}
+        <div className="md-2 p-4">
+          <h2>Create Moodboard</h2>
+          <p>This project centers around compiling a digital moodboard to set the visual direction and tone for a new brand identity. The moodboard will showcase a curated selection of images, color palettes, typography samples, textures, and layout inspirations that collectively evoke the brand's intended mood and style.</p>
 
-       
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <span>Sort by: </span>
-          <button className="btn btn-outline-secondary btn-sm me-2">Priority Low-High</button>
-          <button className="btn btn-outline-secondary btn-sm me-2">Priority High-Low</button>
-          <button className="btn btn-outline-secondary btn-sm me-2">Newest First</button>
-          <button className="btn btn-outline-secondary btn-sm">Oldest First</button>
-        </div>
-        <div>
-          <button className="btn btn-outline-secondary btn-sm me-2">Filter</button>
-          <Link to="/taskForm" className="btn btn-primary">
-              New Task
-            </Link>
-        </div>
-      </div>
+          <div className="d-flex justify-content-between me-2">
+                <button className="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Sort by: Priority Low-High
+                </button>
+                
+              <button className="btn btn-primary" onClick={() => navigate("/projectForm")}>
+                New Task
+              </button>
+              </div>
 
-      
-      <div className="table-responsive">
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>Tasks</th>
-              <th>Owners</th>
-              <th>Tags</th>
-              <th>Time to Complete</th>
-              <th>Due Date</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map(task => (
-              <tr key={task._id}>
-                <td>{task.name}</td>
-                <td>
-                  {task.owners.map((id, index) => (
-                    <span key={id} className="badge bg-secondary me-1">
-                      Owner {index + 1}
-                    </span>
-                  ))}
-                </td>
-                <td>
-                  {task.tags.map(tag => (
-                    <span key={tag} className="badge bg-info text-dark me-1">
-                      {tag}
-                    </span>
-                  ))}
-                </td>
-                <td>{task.timeToComplete} days</td>
-                <td>{new Date(task.createdAt).toLocaleDateString("en-GB")}</td>
-                <td>
-                  <span className={`badge ${
-                    task.status === "Completed" ? "bg-success" :
-                    task.status === "In Progress" ? "bg-warning text-dark" :
-                    "bg-secondary"
-                  }`}>
-                    {task.status}
-                  </span>
-                </td>
-                <td>
-                  <button className="btn btn-link text-decoration-none">✖</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          {/* Task Table */}
+          <div className="table-responsive">
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Tasks</th>
+                  <th>Owner</th>
+                  <th>Priority</th>
+                  <th>Due On</th>
+                  <th>Status</th>
+                  <th></th> 
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Create Filter feature</td>
+                  <td>
+                    <span className="badge rounded-circle bg-primary text-white me-1" style={{ width: "24px", height: "24px", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>JD</span>
+                    <span className="text-muted">2</span>
+                  </td>
+                  <td><span className="badge bg-danger">High</span></td>
+                  <td>20 Dec 2024</td>
+                  <td><span className="badge bg-success">Completed</span></td>
+                  <td><span className="text-success">+</span></td>
+                </tr>
+                <tr>
+                  <td>Create Filter feature</td>
+                  <td>
+                    <span className="badge rounded-circle bg-warning text-white me-1" style={{ width: "24px", height: "24px", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>UT</span>
+                  </td>
+                  <td><span className="badge bg-success">Low</span></td>
+                  <td>20 Dec 2024</td>
+                  <td><span className="badge bg-warning">In Progress</span></td>
+                  <td><span className="text-success">+</span></td>
+                </tr>
+                <tr>
+                  <td>Create Filter feature</td>
+                  <td>
+                    <span className="badge rounded-circle bg-info text-white me-1" style={{ width: "24px", height: "24px", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>JS</span>
+                  </td>
+                  <td><span className="badge bg-primary">Medium</span></td>
+                  <td>20 Dec 2024</td>
+                  <td><span className="badge bg-warning">In Progress</span></td>
+                  <td><span className="text-success">+</span></td>
+                </tr>
+              </tbody>
+            </table>
+             
+          </div>
+        </div>
       </div>
     </div>
   );
