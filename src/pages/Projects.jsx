@@ -8,7 +8,7 @@ function Projects() {
   const [error, setError] = useState("");
   const [projectName, setProjectName] = useState("");
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+  const API_URL = import.meta.env.VITE_API_URL || "https://workasana-frontend-two.vercel.app";
 
   useEffect(() => {
     const fetchProjects = async () => {

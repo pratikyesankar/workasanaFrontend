@@ -18,7 +18,7 @@ const Teams = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:4000/teams", {
+        const response = await axios.get("https://workasana-frontend-two.vercel.app/teams", {
           headers: {
             Authorization: `Bearer ${token}`, 
           },

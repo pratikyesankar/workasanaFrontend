@@ -13,7 +13,7 @@ const ProjectForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/projects", {
+      const response = await axios.post("https://workasana-frontend-two.vercel.app/projects", {
         name: projectName,
         description: projectDescription,
       });
