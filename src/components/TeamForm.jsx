@@ -21,7 +21,7 @@ const TeamForm = () => {
         members: members.filter(member => member.trim() !== ""),  
       };
 
-      const response = await axios.post("https://workasana-frontend-two.vercel.app/teams", teamData);
+      const response = await axios.post("https://workasana-backend-ten.vercel.app/teams", teamData);
       setSuccess("Team created successfully!");
       setError(null);
     

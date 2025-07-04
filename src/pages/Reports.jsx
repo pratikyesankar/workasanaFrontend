@@ -13,7 +13,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, ArcElement, BarElement, Tooltip, Legend);
 
-const API_URL = "https://workasana-frontend-two.vercel.app";
+const API_URL = "https://workasana-backend-ten.vercel.app";
 
 const Reports = () => {
   const [tasks, setTasks] = useState([]);

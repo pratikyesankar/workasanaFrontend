@@ -10,7 +10,7 @@ function Auth() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL || "https://workasana-frontend-two.vercel.app";
+  const API_URL = import.meta.env.VITE_API_URL || "https://workasana-backend-ten.vercel.app";
 
   const handleSignup = async (e) => {
     e.preventDefault();

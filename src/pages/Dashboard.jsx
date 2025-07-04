@@ -8,7 +8,7 @@ function Dashboard() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE = import.meta.env.VITE_API_URL || "https://workasana-frontend-two.vercel.app";
+  const API_BASE = import.meta.env.VITE_API_URL || "https://workasana-backend-ten.vercel.app";
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
