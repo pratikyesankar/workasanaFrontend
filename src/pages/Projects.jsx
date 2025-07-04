@@ -51,32 +51,43 @@ function Projects() {
   return (
     <div className="container-fluid">
       <div className="row">
-        {/* Main Content */}
         <div className="md-2 p-4">
           <h2>Create Moodboard</h2>
           <p>This project centers around compiling a digital moodboard to set the visual direction and tone for a new brand identity. The moodboard will showcase a curated selection of images, color palettes, typography samples, textures, and layout inspirations that collectively evoke the brand's intended mood and style.</p>
 
-          <div className="d-flex justify-content-between me-2">
-                <button className="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Sort by: Priority Low-High
-                </button>
-                
-              <button className="btn btn-primary" onClick={() => navigate("/projectForm")}>
-                New Task
-              </button>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div className="d-flex align-items-center flex-wrap gap-2">
+                <span className="me-2 fw-semibold">Sort by:</span>
+                  <button type="button" className="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                     Priority Low-High
+                   </button>
+                 <button type="button" className="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                      Priority High-Low
+                  </button>
+                  <button type="button" className="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                         Newest First
+                   </button>
+                   <button type="button" className="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                      Oldest First
+                    </button>
               </div>
 
-          {/* Task Table */}
+                   <button className="btn btn-primary btn-sm" onClick={() => navigate("/projectForm")}>
+                      + New Task
+                   </button>
+            </div>
+
+
           <div className="table-responsive">
-            <table className="table table-bordered">
-              <thead>
+            <table className="table table-bordered align-middle">
+              <thead className="table-light">
                 <tr>
                   <th>Tasks</th>
                   <th>Owner</th>
                   <th>Priority</th>
                   <th>Due On</th>
                   <th>Status</th>
-                  <th></th> 
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -84,36 +95,35 @@ function Projects() {
                   <td>Create Filter feature</td>
                   <td>
                     <span className="badge rounded-circle bg-primary text-white me-1" style={{ width: "24px", height: "24px", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>JD</span>
-                    <span className="text-muted">2</span>
+                    <span className="text-muted">+2</span>
                   </td>
-                  <td><span className="badge bg-danger">High</span></td>
-                  <td>20 Dec 2024</td>
+                  <td><span className="badge bg-light text-danger border border-danger">P High</span></td>
+                  <td>20 Dec, 2024</td>
                   <td><span className="badge bg-success">Completed</span></td>
-                  <td><span className="text-success">+</span></td>
+                  <td><span className="text-secondary">&rarr;</span></td>
                 </tr>
                 <tr>
                   <td>Create Filter feature</td>
                   <td>
                     <span className="badge rounded-circle bg-warning text-white me-1" style={{ width: "24px", height: "24px", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>UT</span>
                   </td>
-                  <td><span className="badge bg-success">Low</span></td>
-                  <td>20 Dec 2024</td>
-                  <td><span className="badge bg-warning">In Progress</span></td>
-                  <td><span className="text-success">+</span></td>
+                  <td><span className="badge bg-light text-success border border-success">P Low</span></td>
+                  <td>20 Dec, 2024</td>
+                  <td><span className="badge bg-warning text-dark">In Progress</span></td>
+                  <td><span className="text-secondary">&rarr;</span></td>
                 </tr>
                 <tr>
                   <td>Create Filter feature</td>
                   <td>
                     <span className="badge rounded-circle bg-info text-white me-1" style={{ width: "24px", height: "24px", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>JS</span>
                   </td>
-                  <td><span className="badge bg-primary">Medium</span></td>
-                  <td>20 Dec 2024</td>
-                  <td><span className="badge bg-warning">In Progress</span></td>
-                  <td><span className="text-success">+</span></td>
+                  <td><span className="badge bg-light text-primary border border-primary">P Medium</span></td>
+                  <td>20 Dec, 2024</td>
+                  <td><span className="badge bg-warning text-dark">In Progress</span></td>
+                  <td><span className="text-secondary">&rarr;</span></td>
                 </tr>
               </tbody>
             </table>
-             
           </div>
         </div>
       </div>
